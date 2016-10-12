@@ -26,7 +26,10 @@ namespace BLL
         {
             Detalle.Add(new SolicitudDetalle(material, cantidad,precio));
         }
-
+        public void LimpiarDetalle()
+        {
+            Detalle.Clear();
+        }
         public override bool Insertar()
         {
             ConexionDb conexion = new ConexionDb();
@@ -109,6 +112,7 @@ namespace BLL
                     this.Total = (float)Convert.ToDecimal(dt.Rows[0]["Total"].ToString());
 
                     detalle = conexion.ObtenerDatos(string.Format("select * from SolicitudDetalle where SolicitudId={0}", this.SolicitudId));
+                    LimpiarDetalle();
                     foreach (DataRow row in detalle.Rows)
                     {
                         AgregarMateriales(row["Material"].ToString(), (int)row["Cantidad"],(float)Convert.ToDecimal(row["Precio"].ToString()));
@@ -126,8 +130,11 @@ namespace BLL
         {
             ConexionDb conexion = new ConexionDb();
             DataTable dt = new DataTable();
+            string ordenFinal = "";
+            if (!Orden.Equals(""))
+                ordenFinal = " Order by  " + Orden;
 
-            return dt = conexion.ObtenerDatos(string.Format("select " + Campos + " from Solicitud where" + Condicion + Orden));
+            return dt = conexion.ObtenerDatos(string.Format("select " + Campos + " from Solicitud as S inner join SolicitudDetalle SD on S.SolicitudId=SD.SolicitudId where " + Condicion + ordenFinal));
         }
     }
 }

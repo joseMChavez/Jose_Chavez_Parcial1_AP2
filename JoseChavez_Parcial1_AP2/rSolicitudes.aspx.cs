@@ -13,12 +13,34 @@ namespace JoseChavez_Parcial1_AP2
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            Solicitud solicitud = new Solicitud();
+            DataTable dt = new DataTable();
+            int id = 0;
             if (!IsPostBack)
             {
+                FechaTextBox.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                FechaTextBox.ReadOnly = true;
                 CargarDDList();
-                DataTable dt = new DataTable();
+                
                 dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Material"), new DataColumn("Cantidad"), new DataColumn("Precio") });
                 Session["Materiales"] = dt;
+
+                if (Request.QueryString["ID"]!=null)
+                {
+                    int.TryParse(Request.QueryString["ID"].ToString(), out id);
+                   
+                        if (solicitud.Buscar(id))
+                        {
+                            if (MaterialesGridView.Rows.Count == 0)
+                            {
+                                DevolverDatos(solicitud);
+                            }
+                            
+                            RazonTextBox.Focus();
+                            // IdTextBox.Text = string.Empty;
+                        }
+                    
+                }
             }
             
         }
@@ -31,8 +53,11 @@ namespace JoseChavez_Parcial1_AP2
             CantidadTextBox.Text = string.Empty;
             MaterialesDropDownList.SelectedIndex = 0;
             DataTable dt = new DataTable();
-            dt.Columns.AddRange(new DataColumn[3] { new DataColumn("Material"), new DataColumn("Cantidad"), new DataColumn("Precio") });
-            Session["Materiales"] = dt;
+            MaterialesGridView.DataSource = null;
+            MaterialesGridView.DataBind();
+            PrecioTextBox.Text = string.Empty;
+            TotalTextBox.Text = string.Empty;
+          
         }
         private void CargarDDList()
         {
@@ -41,6 +66,18 @@ namespace JoseChavez_Parcial1_AP2
             MaterialesDropDownList.DataTextField = "Descripcion";
             MaterialesDropDownList.DataValueField = "Descripcion";
             MaterialesDropDownList.DataBind();
+            CargarPrecio();
+            
+        }
+     
+        private void CargarPrecio()
+        {
+            Materiales material = new Materiales();
+            PrecioDropDownList.DataSource = material.Listado("Precio", "Descripcion= '" + MaterialesDropDownList.Text + "'", "");
+            PrecioDropDownList.DataTextField = "Precio";
+            PrecioDropDownList.DataValueField = "Precio";
+            PrecioDropDownList.DataBind();
+            PrecioTextBox.Text = PrecioDropDownList.Text;
         }
         public void LLenarDatos(Solicitud solicitud) {
             int Id = 0;
@@ -64,7 +101,7 @@ namespace JoseChavez_Parcial1_AP2
             RazonTextBox.Text = solicitud.Razon;
             FechaTextBox.Text = solicitud.Fecha;
             TotalTextBox.Text = solicitud.Total.ToString();
-
+            
             foreach (var item in solicitud.Detalle)
             {
                 DataTable dt = (DataTable)Session["Materiales"];
@@ -73,6 +110,7 @@ namespace JoseChavez_Parcial1_AP2
                 MaterialesGridView.DataSource = Session["Materiales"];
                 MaterialesGridView.DataBind();
             }
+
         }
 
         protected void NuevoButton_Click(object sender, EventArgs e)
@@ -178,25 +216,41 @@ namespace JoseChavez_Parcial1_AP2
 
         protected void BuscarButton_Click(object sender, EventArgs e)
         {
-            Solicitud solicitud = new Solicitud();
-            int id = 0;
-            int.TryParse(IdTextBox.Text, out id);
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(IdTextBox.Text))
-                {
-                    if (solicitud.Buscar(id))
-                    {
-                        DevolverDatos(solicitud);
-                        RazonTextBox.Focus();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
+            //Solicitud solicitud = new Solicitud();
+            //int id = 0;
+            //int.TryParse(IdTextBox.Text, out id);
+            //try
+            //{
+            //    if (!string.IsNullOrWhiteSpace(IdTextBox.Text))
+            //    {
+            //        if (solicitud.Buscar(id))
+            //        {
+            //            if (MaterialesGridView.Rows.Count==0)
+            //            {
+            //                DevolverDatos(solicitud);
+            //            }
+            //            else
+            //            {
+            //                NuevoButton_Click(sender, e);
+            //            }
 
-                throw ex;
-            }
+
+            //            RazonTextBox.Focus();
+            //           // IdTextBox.Text = string.Empty;
+            //        }
+            //    }
+            //}
+            //catch (Exception ex)
+            //{
+
+            //    throw ex;
+            //}
+            Response.Redirect("cSolicitud.aspx");
+        }
+
+        protected void MaterialesDropDownList_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            CargarPrecio();
         }
     }
 

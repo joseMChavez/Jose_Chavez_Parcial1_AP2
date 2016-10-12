@@ -62,11 +62,19 @@
     <Content Include="APP_DATA\SolicitudesDb_log.ldf">
       <DependentUpon>SolicitudesDb.mdf</DependentUpon>
     </Content>
+    <Content Include="cSolicitud.aspx" />
     <Content Include="rMateriales.aspx" />
     <Content Include="rSolicitudes.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="cSolicitud.aspx.cs">
+      <DependentUpon>cSolicitud.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="cSolicitud.aspx.designer.cs">
+      <DependentUpon>cSolicitud.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Jefa.Master.cs">
       <DependentUpon>Jefa.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

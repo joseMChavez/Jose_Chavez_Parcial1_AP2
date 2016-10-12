@@ -7,15 +7,24 @@
     <title></title>
     <asp:ContentPlaceHolder ID="head" runat="server">
     </asp:ContentPlaceHolder>
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-theme.min.css" rel="stylesheet"/>
 </head>
 <body>
     <form id="form1" runat="server">
     <div>
         <h1>Jose Chavez</h1>
+        <asp:ScriptManager ID="ScriptManager1" runat="server"></asp:ScriptManager>
+        <a href="rMateriales.aspx">Materiales</a>
+        <a href="rSolicitudes.aspx">Solicitudes</a>
         <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
         
         </asp:ContentPlaceHolder>
+
     </div>
     </form>
+     <script src="js/toastr.js"></script>
+     <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
 </body>
 </html>

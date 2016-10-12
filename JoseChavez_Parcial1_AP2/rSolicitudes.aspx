@@ -7,13 +7,26 @@
         .auto-style2 {
             width: 323px;
         }
-        .auto-style3 {
-            height: 18px;
+        .auto-style4 {
+            width: 100%;
+            height: 249px;
+            margin-bottom: 58px;
+        }
+        .auto-style5 {
+            width: 215px;
+            height: 8px;
+        }
+        .auto-style6 {
+            width: 323px;
+            height: 8px;
+        }
+        .auto-style7 {
+            height: 8px;
         }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <table style="width: 100%;">
+    <table class="auto-style4">
         <tr>
             <td class="auto-style1">
                 <asp:Label ID="IdLabel" runat="server" Text="Id:"></asp:Label>
@@ -21,30 +34,37 @@
                 <asp:Button ID="BuscarButton" runat="server" Text="Buscar" OnClick="BuscarButton_Click" />
             </td>
             <td class="auto-style2"><asp:Label ID="RazonLabel" runat="server" Text="Razon:"></asp:Label>
-                <asp:TextBox ID="RazonTextBox" runat="server" Width="258px"></asp:TextBox></td>
+                <asp:TextBox ID="RazonTextBox" runat="server" Width="258px"></asp:TextBox>
+            
+            </td>
             <td><asp:Label ID="FechaLabel" runat="server" Text="Fecha:"></asp:Label>
                 <asp:TextBox ID="FechaTextBox" runat="server"></asp:TextBox>
                </td>
             
         </tr>
         <tr>
-            <td class="auto-style1">
+            <td class="auto-style5">
                 <asp:Label ID="MateriaLabel" runat="server" Text="Materia"></asp:Label>
             </td>
-            <td class="auto-style2">
+            <td class="auto-style6">
                 <asp:Label ID="CantidadLabel" runat="server" Text="Cantidad"></asp:Label>
             </td>
-            <td><asp:Label ID="Label1" runat="server" Text="Precio"></asp:Label></td>
+            <td class="auto-style7"><asp:Label ID="Label1" runat="server" Text="Precio"></asp:Label></td>
             
         </tr>
+         <asp:UpdatePanel ID="UpdatePanel1" runat="server">
+             <ContentTemplate>
         <tr>
+           
             <td class="auto-style1">
-                <asp:DropDownList ID="MaterialesDropDownList" runat="server" Height="16px" Width="156px"></asp:DropDownList></td>
+                <asp:DropDownList ID="MaterialesDropDownList" runat="server" AutoPostBack="true" Height="16px" Width="156px" OnSelectedIndexChanged="MaterialesDropDownList_SelectedIndexChanged"></asp:DropDownList></td>
             <td class="auto-style2">
                 <asp:TextBox ID="CantidadTextBox" runat="server"></asp:TextBox>
                 &nbsp;</td>
             <td>
-                <asp:TextBox ID="PrecioTextBox" runat="server"></asp:TextBox>
+                <asp:TextBox ID="PrecioTextBox" runat="server" ReadOnly="true"></asp:TextBox>
+                <asp:DropDownList ID="PrecioDropDownList" runat="server" ViewStateMode="Disabled" visible="false">
+                </asp:DropDownList>
                 <asp:Button ID="AddButton" runat="server" Text="Add" OnClick="AddButton_Click"  />
             </td>
         </tr>
@@ -63,6 +83,8 @@
             
             
         </tr>
+                 </ContentTemplate>
+        </asp:UpdatePanel>
         <tr>
             <td class="auto-style1"></td>
             <td class="auto-style2">
